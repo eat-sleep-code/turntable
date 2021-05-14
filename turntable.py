@@ -71,7 +71,7 @@ buttonD.direction = Direction.INPUT
 ipAddressConfirmed = False
 secondsBetweenPhotosConfirmed = False
 maxStepsConfirmed = False
-confirmationLifespan = 5.0
+confirmationLifespan = 3.0
 
 ipAddress, secondsBetweenPhotos, maxSteps = Config.read()
 protocol = 'http'
@@ -308,7 +308,7 @@ def turn():
 	global protocol
 
 	promptText = 'Starting scan with one frame every ' + str(secondsBetweenPhotos) + ' seconds for up to ' + str(maxSteps) + ' steps...'
-	Text.write((promptText), 0, 0, '#FFFF00')
+	Text.write((promptText,), 0, 0, '#FFFF00')
 	print('\n ' + promptText)
 	
 	for i in range(maxSteps):
@@ -322,7 +322,7 @@ def turn():
 			time.sleep(secondsBetweenPhotos/2)
 
 	promptText = 'Scan pass complete... '
-	Text.write((promptText), 0, 0, '#0000FF')
+	Text.write((promptText,), 0, 0, '#0000FF')
 	print('\n ' + promptText)
 	time.sleep(5)
 
@@ -347,15 +347,14 @@ try:
 	configureMaxSteps()
 
 	promptText = 'Press "A" to start a new scan pass... '
-	Text.write((promptText), 0, 0, '#FFFF00')
+	Text.write((promptText,), 0, 0, '#FFFF00')
 	
 	while True:
 		if turning == False:
 			if not buttonA.value:
-				turn()
-			else:
 				promptText = 'Scanning...'
-				Text.write((promptText), 0, 0, '#FFFF00')
+				Text.write((promptText,), 0, 0, '#FFFF00')
+				turn()	
 		else:
 			time.sleep(1)
 	
