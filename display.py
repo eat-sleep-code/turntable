@@ -18,22 +18,22 @@ rgbDisplay = st7789.ST7789(
 width = int(rgbDisplay.width)
 height = int(rgbDisplay.height)
 rotation = 0
-image = Image.new('RGB', (width, height))
-draw = ImageDraw.Draw(image)
+rgbImage = Image.new('RGB', (width, height))
+draw = ImageDraw.Draw(rgbImage)
 fontSize = 24
 font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', fontSize)
 
 
 class Backlight:
 	
-	def On():
+	def on():
 		print('DEBUG: Backlight ON...')
 		backlight = DigitalInOut(board.D26)
 		backlight.switch_to_output()
 		backlight.value = True
 
 
-	def Off():
+	def off():
 		print('DEBUG: Backlight OFF...')
 		backlight = DigitalInOut(board.D26)
 		backlight.switch_to_output()
@@ -45,7 +45,7 @@ class Backlight:
 
 class Text:
 
-	def Clear():
+	def clear():
 		print('DEBUG: Clearing...')
 		global rgbDisplay
 		global image
@@ -54,23 +54,23 @@ class Text:
 		global height
 		global rotation
 		draw.rectangle((0, 0, width, height), outline=0, fill=(0, 0, 0))
-		rgbDisplay.image(image, rotation)
+		rgbDisplay.rgbImage(image, rotation)
 
 
-	def Write(x = 0, y = 0, inputLines = [], textColor='#FFFFFF'):
+	def write(x = 0, y = 0, inputLines = [], textColor='#FFFFFF'):
 		global rgbDisplay
 		global image
 		global draw
 		global font
 
-		Backlight.On()
-		Text.Clear()
+		Backlight.on()
+		Text.clear()
 		
 		for line in inputLines:
 			print('DEBUG: Writing... ' + str(line))
 			draw.text((x, y), str(line), font=font, fill=textColor)
 			y += font.getsize(str(line))[1]
 
-		rgbDisplay.image(image, rotation)
+		rgbDisplay.rgbImage(image, rotation)
 		time.sleep(0.1)
 
