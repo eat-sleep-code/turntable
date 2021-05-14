@@ -71,6 +71,7 @@ buttonD.direction = Direction.INPUT
 ipAddressConfirmed = False
 secondsBetweenPhotosConfirmed = False
 maxStepsConfirmed = False
+confirmationLifespan = 5.0
 
 ipAddress, secondsBetweenPhotos, maxSteps = Config.read()
 protocol = 'http'
@@ -106,6 +107,7 @@ def configureIP():
 	global secondsBetweenPhotos
 	global maxSteps
 	global ipAddressConfirmed
+	global confirmationLifespan
 	
 	modifyingOctet = 4
 	octet1, octet2, octet3, octet4 = getIPOctets()
@@ -123,7 +125,6 @@ def configureIP():
 					octet1 = 0
 				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
-				time.sleep(0.5)
 
 			elif not buttonD.value:
 				if octet1 > 0:
@@ -132,7 +133,6 @@ def configureIP():
 					octet1 = 255
 				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
-				time.sleep(0.5)
 
 		# Second IP Octet
 		elif modifyingOctet == 2:
@@ -143,7 +143,6 @@ def configureIP():
 					octet2 = 0
 				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
-				time.sleep(0.5)
 
 			elif not buttonD.value:
 				if octet2 > 0:
@@ -152,7 +151,6 @@ def configureIP():
 					octet2 = 255
 				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
-				time.sleep(0.5)
 
 		# Third IP Octet
 		elif modifyingOctet == 3:
@@ -163,7 +161,6 @@ def configureIP():
 					octet3 = 0
 				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
-				time.sleep(0.5)
 
 			elif not buttonD.value:
 				if octet3 > 0:
@@ -172,7 +169,6 @@ def configureIP():
 					octet3 = 255
 				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
-				time.sleep(0.5)
 
 		# Fourth IP Octet
 		else:
@@ -183,7 +179,6 @@ def configureIP():
 					octet4 = 0
 				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
-				time.sleep(0.5)
 
 			elif not buttonD.value:
 				if octet4 > 0:
@@ -192,12 +187,11 @@ def configureIP():
 					octet4 = 255
 				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
-				time.sleep(0.5)
 
 		# Move to prior Octet
 		if not buttonL.value:
 			print('DEBUG: Button L...')
-			if modifyingOctet > 0:
+			if modifyingOctet > 1:
 				modifyingOctet -= 1
 			else:
 				modifyingOctet = 4
@@ -216,10 +210,12 @@ def configureIP():
 			reconstructIP(octet1, octet2, octet3, octet4)
 			Config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
 			ipAddressConfirmed = True
+		
+		time.sleep(0.5)
 
 	if ipAddressConfirmed == True:
 		Text.write((promptText, ipAddress), 0, 0, '#00FF00')
-
+		time.sleep(confirmationLifespan)
 
 #// ===========================================================================
 
@@ -230,6 +226,7 @@ def configureSecondsBetweenPhotos():
 	global secondsBetweenPhotos
 	global maxSteps
 	global secondsBetweenPhotosConfirmed
+	global confirmationLifespan
 	
 	promptText = 'Seconds between photos: '
 	Text.write((promptText, secondsBetweenPhotos), 0, 0)
@@ -241,7 +238,6 @@ def configureSecondsBetweenPhotos():
 			else:
 				secondsBetweenPhotos = 0
 			Text.write((promptText, secondsBetweenPhotos), 0, 0)
-			time.sleep(0.5)
 
 		elif not buttonD.value:
 			if secondsBetweenPhotos > 0:
@@ -249,14 +245,16 @@ def configureSecondsBetweenPhotos():
 			else:
 				secondsBetweenPhotos = 60
 			Text.write((promptText, secondsBetweenPhotos), 0, 0)
-			time.sleep(0.5)
 
 		if not buttonA.value:
 			Config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
-			ipConfirmed = True
+			secondsBetweenPhotosConfirmed = True
+
+		time.sleep(0.5)
 
 	if secondsBetweenPhotosConfirmed == True:
 		Text.write((promptText, secondsBetweenPhotos), 0, 0, '#00FF00')
+		time.sleep(confirmationLifespan)
 
 
 #// ===========================================================================
@@ -268,6 +266,7 @@ def configureMaxSteps():
 	global secondsBetweenPhotos
 	global maxSteps
 	global maxStepsConfirmed
+	global confirmationLifespan
 	
 	promptText = 'Max steps: '
 	Text.write((promptText, maxSteps), 0, 0)
@@ -279,22 +278,23 @@ def configureMaxSteps():
 			else:
 				maxSteps = 0
 				Text.write((promptText, maxSteps), 0, 0)
-			time.sleep(0.5)
+			
 		elif not buttonD.value:
 			if maxSteps > 0:
 				maxSteps -= 1
 			else:
 				maxSteps = 60
 				Text.write((promptText, maxSteps), 0, 0)
-			time.sleep(0.5)
 
 		if not buttonA.value:
 			Config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
-			ipConfirmed = True
+			maxStepsConfirmed = True
+		
+		time.sleep(0.5)
 
 	if maxStepsConfirmed == True:
 		Text.write((promptText, maxSteps), 0, 0, '#00FF00')
-
+		time.sleep(confirmationLifespan)
 
 #// ===========================================================================
 
