@@ -187,7 +187,7 @@ def ConfigureSecondsBetweenPhotos():
 	while secondsBetweenPhotosConfirmed == False:
 		screenData = []
 		screenData.append(promptText)
-		screenData.append(secondsBetweenPhotos)
+		screenData.append(str(secondsBetweenPhotos))
 		display.Text.Write(0, 0, screenData)
 		
 		if not buttonU.value:
@@ -210,7 +210,7 @@ def ConfigureSecondsBetweenPhotos():
 	if secondsBetweenPhotosConfirmed == True:
 		screenData = []
 		screenData.append(promptText)
-		screenData.append(secondsBetweenPhotos)
+		screenData.append(str(secondsBetweenPhotos))
 		display.Text.Write(0, 0, screenData, '#00FF00')
 		return True
 
@@ -229,7 +229,7 @@ def ConfigureMaxSteps():
 	while maxStepsConfirmed == False:
 		screenData = []
 		screenData.append(promptText)
-		screenData.append(maxSteps)
+		screenData.append(str(maxSteps))
 		display.Text.Write(0, 0, screenData)
 
 		if not buttonU.value:
@@ -252,7 +252,7 @@ def ConfigureMaxSteps():
 	if maxStepsConfirmed == True:
 		screenData = []
 		screenData.append(promptText)
-		screenData.append(maxSteps)
+		screenData.append(str(maxSteps))
 		display.Text.Write(0, 0, screenData, '#00FF00')
 		return True
 
@@ -267,7 +267,7 @@ def Turn():
 	global maxSteps
 	global protocol
 
-	promptText = 'Starting scan with one frame every ' + secondsBetweenPhotos + ' seconds for up to ' + maxSteps + ' steps...'
+	promptText = 'Starting scan with one frame every ' + str(secondsBetweenPhotos) + ' seconds for up to ' + str(maxSteps) + ' steps...'
 	screenData = []
 	screenData.append(promptText)
 	display.Text.Write(0, 0, screenData, '#FFFF00')
@@ -294,9 +294,9 @@ def Turn():
 
 
 try:
-	ipConfigured = ConfigureIP()
-	secondsBetweenPhotosConfigured = ConfigureSecondsBetweenPhotos()
-	maxStepsConfigured = ConfigureMaxSteps()
+	ipConfigured = ConfigureIP
+	secondsBetweenPhotosConfigured = ConfigureSecondsBetweenPhotos
+	maxStepsConfigured = ConfigureMaxSteps
 	while True:
 		if turning == False:
 			if not buttonA.value:
