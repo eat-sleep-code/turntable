@@ -48,18 +48,18 @@ class Text:
 	def clear():
 		print('DEBUG: Clearing...')
 		global rgbDisplay
-		global image
+		global rgbImage
 		global draw
 		global width
 		global height
 		global rotation
 		draw.rectangle((0, 0, width, height), outline=0, fill=(0, 0, 0))
-		rgbDisplay.rgbImage(image, rotation)
+		rgbDisplay.image(rgbImage, rotation)
 
 
 	def write(x = 0, y = 0, inputLines = [], textColor='#FFFFFF'):
 		global rgbDisplay
-		global image
+		global rgbImage
 		global draw
 		global font
 
@@ -71,6 +71,6 @@ class Text:
 			draw.text((x, y), str(line), font=font, fill=textColor)
 			y += font.getsize(str(line))[1]
 
-		rgbDisplay.rgbImage(image, rotation)
+		rgbDisplay.image(rgbImage, rotation)
 		time.sleep(0.1)
 

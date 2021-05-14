@@ -4,8 +4,8 @@ import subprocess
 configFile = 'turntable.json'
 
 class Config:
-	
-	def read(self):
+
+	def read():
 		global configFile
 		ipAddress = subprocess.getoutput('hostname -I').split(' ')[0] #Only if turntable board is also running camera, but serves as a "safe" default value
 		secondsBetweenPhotos = 5
@@ -23,7 +23,7 @@ class Config:
 		return(ipAddress, secondsBetweenPhotos, maxSteps)
 
 
-	def write(self, ipAddress, secondsBetweenPhotos = 5, maxSteps = 200): 
+	def write(ipAddress, secondsBetweenPhotos = 5, maxSteps = 200): 
 		global configFile
 		try:
 			configList = {}
