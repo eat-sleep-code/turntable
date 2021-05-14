@@ -60,8 +60,8 @@ class Text:
 		global draw
 		global font
 
-		Backlight.on()
-		text.clear()
+		Backlight.On()
+		Text.Clear()
 		for line in inputLines:
 			draw.text((x, y), input, font=font, fill=textColor)
 			y += font.getsize(input)[1]
