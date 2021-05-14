@@ -81,14 +81,14 @@ def ConfigureIP():
 		# First IP Octet
 		if modifyingOctet == 1:
 			if not buttonU.value:
-				if (octet1 < 255):
+				if octet1 < 255:
 					octet1 += 1
 				else:
 					octet1 = 0
 				time.sleep(0.5)
 
 			elif not buttonD.value:
-				if (octet1 > 0):
+				if octet1 > 0:
 					octet1 -= 1
 				else:
 					octet1 = 255
@@ -104,7 +104,7 @@ def ConfigureIP():
 				time.sleep(0.5)
 
 			elif not buttonD.value:
-				if (octet2 > 0):
+				if octet2 > 0:
 					octet2 -= 1
 				else:
 					octet2 = 255
@@ -113,14 +113,14 @@ def ConfigureIP():
 		# Third IP Octet
 		elif modifyingOctet == 3:
 			if not buttonU.value:
-				if (octet3 < 255):
+				if octet3 < 255:
 					octet3 += 1
 				else:
 					octet3 = 0
 				time.sleep(0.5)
 
 			elif not buttonD.value:
-				if (octet3 > 0):
+				if octet3 > 0:
 					octet3 -= 1
 				else:
 					octet3 = 255
@@ -129,14 +129,14 @@ def ConfigureIP():
 		# Fourth IP Octet
 		else:
 			if not buttonU.value:
-				if (octet4 < 255):
+				if octet4 < 255:
 					octet4 += 1
 				else:
 					octet4 = 0
 				time.sleep(0.5)
 
 			elif not buttonD.value:
-				if (octet4 > 0):
+				if octet4 > 0:
 					octet4 -= 1
 				else:
 					octet4 = 255
@@ -144,14 +144,14 @@ def ConfigureIP():
 
 		# Move to prior Octet
 		if not buttonL.value:
-			if (modifyingOctet > 0):
+			if modifyingOctet > 0:
 				modifyingOctet -= 1
 			else:
 				modifyingOctet = 4
 
 		# Move to next octet
 		elif not buttonR.value:
-			if (modifyingOctet < 4):
+			if modifyingOctet < 4:
 				modifyingOctet += 1
 			else:
 				modifyingOctet = 1
@@ -188,13 +188,13 @@ def ConfigureSecondsBetweenPhotos():
 		display.Text.Write(0, 0, screenData)
 		
 		if not buttonU.value:
-			if (secondsBetweenPhotos < 60):
+			if secondsBetweenPhotos < 60:
 				secondsBetweenPhotos += 1
 			else:
 				secondsBetweenPhotos = 0
 			time.sleep(0.5)
 		elif not buttonD.value:
-			if (secondsBetweenPhotos > 0)
+			if secondsBetweenPhotos > 0:
 				secondsBetweenPhotos -= 1
 			else:
 				secondsBetweenPhotos = 60
@@ -230,13 +230,13 @@ def ConfigureMaxSteps():
 		display.Text.Write(0, 0, screenData)
 
 		if not buttonU.value:
-			if (maxSteps < 720):
+			if maxSteps < 720:
 				maxSteps += 1
 			else:
 				maxSteps = 0
 			time.sleep(0.5)
 		elif not buttonD.value:
-			if (maxSteps > 0)
+			if maxSteps > 0:
 				maxSteps -= 1
 			else:
 				maxSteps = 60
@@ -272,9 +272,9 @@ def Turn():
 	for i in range(maxSteps):
 		url = protocol + '://' + ipAddress + '/control/capture/photo'
 		response = requests.get(url)
-		if (response.status_code > 399):
+		if response.status_code > 399:
 			break
-		else
+		else:
 			time.sleep(secondsBetweenPhotos/2)
 			motors.stepper1.onestep()
 			time.sleep(secondsBetweenPhotos/2)
