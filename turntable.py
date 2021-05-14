@@ -4,7 +4,7 @@ import display
 import requests
 import time
 from digitalio import DigitalInOut, Direction
-from adafruit_motorkit import adafruit_motorkit
+from adafruit_motorkit import MotorKit
 
 
 #// ===========================================================================
