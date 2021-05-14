@@ -1,11 +1,26 @@
 import board
 import config
 import display
+import os
 import requests
+import subprocess
 import time
 from digitalio import DigitalInOut, Direction
 from adafruit_motorkit import MotorKit
 
+version = '2021.05.13'
+
+#// ===========================================================================
+
+# Echo Control
+os.environ['TERM'] = 'xterm-256color'
+def echoOff():
+	subprocess.Popen(['stty', '-echo'], shell=True, stdout=subprocess.DEVNULL, stderr=errorLog)
+def echoOn():
+	subprocess.Popen(['stty', 'echo'], shell=True, stdout=subprocess.DEVNULL, stderr=errorLog)
+def clear():
+	subprocess.Popen('clear' if os.name == 'posix' else 'cls')
+clear()
 
 #// ===========================================================================
 
@@ -294,13 +309,24 @@ def Turn():
 
 
 try:
+	echoOff()
+
+	try:
+		os.chdir('/home/pi') 
+	except:
+		pass
+
+	print('\n Turntable ' + version )
+	print('\n ----------------------------------------------------------------------')
+	time.sleep(2)
+	
 	ipConfigured = ConfigureIP
 	secondsBetweenPhotosConfigured = ConfigureSecondsBetweenPhotos
 	maxStepsConfigured = ConfigureMaxSteps
 	while True:
 		if turning == False:
 			if not buttonA.value:
-				Turn()
+				Turn
 			else:
 				promptText = 'Press "A" to start a new scan pass... '
 				screenData.append(promptText)
