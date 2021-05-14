@@ -8,7 +8,7 @@ rgbDisplay = st7789.ST7789(
 	spi=board.SPI(),
 	height=240,
 	y_offset=80,
-	rotation=180,
+	rotation=0,
 	cs=DigitalInOut(board.CE0),
 	dc=DigitalInOut(board.D25),
 	rst=DigitalInOut(board.D24),
@@ -56,7 +56,7 @@ class Text:
 		rgbDisplay.image(rgbImage, rotation)
 
 
-	def write(x = 0, y = 0, inputLines = [], textColor='#FFFFFF'):
+	def write(inputLines = [], x = 0, y = 0, textColor='#FFFFFF'):
 		global rgbDisplay
 		global rgbImage
 		global draw

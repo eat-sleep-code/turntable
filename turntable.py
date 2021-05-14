@@ -95,17 +95,13 @@ def configureIP():
 	global maxSteps
 	global ipAddressConfirmed
 	
-	promptText = 'Camera IP address: '
 	modifyingOctet = 4
-
 	octet1, octet2, octet3, octet4 = getIPOctets()
-	
-	while ipAddressConfirmed == False:
-		screenData = []
-		screenData.append(promptText)
-		screenData.append(ipAddress)
-		Text.write(0, 0, screenData)
 
+	promptText = 'Camera IP address: '
+	Text.write((promptText, ipAddress), 0, 0)
+
+	while ipAddressConfirmed == False:
 		# First IP Octet
 		if modifyingOctet == 1:
 			if not buttonU.value:
@@ -113,6 +109,8 @@ def configureIP():
 					octet1 += 1
 				else:
 					octet1 = 0
+				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
 			elif not buttonD.value:
@@ -120,6 +118,8 @@ def configureIP():
 					octet1 -= 1
 				else:
 					octet1 = 255
+				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
 		# Second IP Octet
@@ -129,6 +129,8 @@ def configureIP():
 					octet2 += 1
 				else:
 					octet2 = 0
+				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
 			elif not buttonD.value:
@@ -136,6 +138,8 @@ def configureIP():
 					octet2 -= 1
 				else:
 					octet2 = 255
+				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
 		# Third IP Octet
@@ -145,6 +149,8 @@ def configureIP():
 					octet3 += 1
 				else:
 					octet3 = 0
+				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
 			elif not buttonD.value:
@@ -152,6 +158,8 @@ def configureIP():
 					octet3 -= 1
 				else:
 					octet3 = 255
+				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
 		# Fourth IP Octet
@@ -161,6 +169,8 @@ def configureIP():
 					octet4 += 1
 				else:
 					octet4 = 0
+				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
 			elif not buttonD.value:
@@ -168,6 +178,8 @@ def configureIP():
 					octet4 -= 1
 				else:
 					octet4 = 255
+				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
 		# Move to prior Octet
@@ -194,10 +206,7 @@ def configureIP():
 			ipAddressConfirmed = True
 
 	if ipAddressConfirmed == True:
-		screenData = []
-		screenData.append(promptText)
-		screenData.append(ipAddress)
-		Text.write(0, 0, screenData, '#00FF00')
+		Text.write((promptText, ipAddress), 0, 0, '#00FF00')
 
 
 #// ===========================================================================
@@ -211,24 +220,23 @@ def configureSecondsBetweenPhotos():
 	global secondsBetweenPhotosConfirmed
 	
 	promptText = 'Seconds between photos: '
-	
-	while secondsBetweenPhotosConfirmed == False:
-		screenData = []
-		screenData.append(promptText)
-		screenData.append(str(secondsBetweenPhotos))
-		Text.write(0, 0, screenData)
+	Text.write((promptText, secondsBetweenPhotos), 0, 0)
 		
+	while secondsBetweenPhotosConfirmed == False:
 		if not buttonU.value:
 			if secondsBetweenPhotos < 60:
 				secondsBetweenPhotos += 1
 			else:
 				secondsBetweenPhotos = 0
+			Text.write((promptText, secondsBetweenPhotos), 0, 0)
 			time.sleep(0.5)
+
 		elif not buttonD.value:
 			if secondsBetweenPhotos > 0:
 				secondsBetweenPhotos -= 1
 			else:
 				secondsBetweenPhotos = 60
+			Text.write((promptText, secondsBetweenPhotos), 0, 0)
 			time.sleep(0.5)
 
 		if not buttonA.value:
@@ -236,10 +244,7 @@ def configureSecondsBetweenPhotos():
 			ipConfirmed = True
 
 	if secondsBetweenPhotosConfirmed == True:
-		screenData = []
-		screenData.append(promptText)
-		screenData.append(str(secondsBetweenPhotos))
-		Text.write(0, 0, screenData, '#00FF00')
+		Text.write((promptText, secondsBetweenPhotos), 0, 0, '#00FF00')
 
 
 #// ===========================================================================
@@ -253,24 +258,22 @@ def configureMaxSteps():
 	global maxStepsConfirmed
 	
 	promptText = 'Max steps: '
-	
-	while maxStepsConfirmed == False:
-		screenData = []
-		screenData.append(promptText)
-		screenData.append(str(maxSteps))
-		Text.write(0, 0, screenData)
+	Text.write((promptText, maxSteps), 0, 0)
 
+	while maxStepsConfirmed == False:
 		if not buttonU.value:
 			if maxSteps < 720:
 				maxSteps += 1
 			else:
 				maxSteps = 0
+				Text.write((promptText, maxSteps), 0, 0)
 			time.sleep(0.5)
 		elif not buttonD.value:
 			if maxSteps > 0:
 				maxSteps -= 1
 			else:
 				maxSteps = 60
+				Text.write((promptText, maxSteps), 0, 0)
 			time.sleep(0.5)
 
 		if not buttonA.value:
@@ -278,10 +281,7 @@ def configureMaxSteps():
 			ipConfirmed = True
 
 	if maxStepsConfirmed == True:
-		screenData = []
-		screenData.append(promptText)
-		screenData.append(str(maxSteps))
-		Text.write(0, 0, screenData, '#00FF00')
+		Text.write((promptText, maxSteps), 0, 0, '#00FF00')
 
 
 #// ===========================================================================
@@ -296,9 +296,7 @@ def turn():
 	global protocol
 
 	promptText = 'Starting scan with one frame every ' + str(secondsBetweenPhotos) + ' seconds for up to ' + str(maxSteps) + ' steps...'
-	screenData = []
-	screenData.append(promptText)
-	Text.write(0, 0, screenData, '#FFFF00')
+	Text.write((promptText), 0, 0, '#FFFF00')
 	print('\n ' + promptText)
 	
 	for i in range(maxSteps):
@@ -312,8 +310,7 @@ def turn():
 			time.sleep(secondsBetweenPhotos/2)
 
 	promptText = 'Scan pass complete... '
-	screenData = []
-	Text.write(0, 0, screenData, '#0000FF')
+	Text.write((promptText), 0, 0, '#0000FF')
 	print('\n ' + promptText)
 	time.sleep(5)
 
@@ -336,15 +333,17 @@ try:
 	configureIP()
 	configureSecondsBetweenPhotos()
 	configureMaxSteps()
+
+	promptText = 'Press "A" to start a new scan pass... '
+	Text.write((promptText), 0, 0, '#FFFF00')
+	
 	while True:
 		if turning == False:
 			if not buttonA.value:
 				turn()
 			else:
-				promptText = 'Press "A" to start a new scan pass... '
-				screenData = []
-				screenData.append(promptText)
-				Text.write(0, 0, screenData, '#FFFF00')
+				promptText = 'Scanning...'
+				Text.write((promptText), 0, 0, '#FFFF00')
 		else:
 			time.sleep(1)
 	
