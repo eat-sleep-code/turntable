@@ -26,14 +26,14 @@ font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', fon
 
 class Backlight:
 	
-	def on(self):
+	def on():
 		print('DEBUG: Backlight ON...')
 		backlight = DigitalInOut(board.D26)
 		backlight.switch_to_output()
 		backlight.value = True
 
 
-	def off(self):
+	def off():
 		print('DEBUG: Backlight OFF...')
 		backlight = DigitalInOut(board.D26)
 		backlight.switch_to_output()
@@ -45,7 +45,7 @@ class Backlight:
 
 class Text:
 
-	def clear(self):
+	def clear():
 		print('DEBUG: Clearing...')
 		global rgbDisplay
 		global image
@@ -57,7 +57,7 @@ class Text:
 		rgbDisplay.rgbImage(image, rotation)
 
 
-	def write(self, x = 0, y = 0, inputLines = [], textColor='#FFFFFF'):
+	def write(x = 0, y = 0, inputLines = [], textColor='#FFFFFF'):
 		global rgbDisplay
 		global image
 		global draw

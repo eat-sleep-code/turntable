@@ -1,5 +1,4 @@
 import board
-import config
 import display
 import os
 import requests
@@ -8,8 +7,11 @@ import sys
 import time
 from digitalio import DigitalInOut, Direction
 from adafruit_motorkit import MotorKit
+from config import Config
+from display import Text, Backlight
 
-version = '2021.05.14'
+
+version = '2021.05.14' 
 
 #// ===========================================================================
 
@@ -69,11 +71,12 @@ buttonD = Direction.INPUT
 ipAddressConfirmed = False
 secondsBetweenPhotosConfirmed = False
 maxStepsConfirmed = False
-ipAddress, secondsBetweenPhotos, maxSteps = config.read()
+
+ipAddress, secondsBetweenPhotos, maxSteps = Config.read()
 protocol = 'http'
 
 
-def getIPOctets(self):
+def getIPOctets():
 	try:
 		global ipAddress
 		splitAddress = ipAddress.split('.')
@@ -85,7 +88,7 @@ def getIPOctets(self):
 #// ===========================================================================
 
 
-def configureIP(self):
+def configureIP():
 	print('DEBUG: Configuring IP...')
 	global ipAddress
 	global secondsBetweenPhotos
@@ -101,7 +104,7 @@ def configureIP(self):
 		screenData = []
 		screenData.append(promptText)
 		screenData.append(ipAddress)
-		display.Text.write(0, 0, screenData)
+		Text.write(0, 0, screenData)
 
 		# First IP Octet
 		if modifyingOctet == 1:
@@ -187,20 +190,20 @@ def configureIP(self):
 		if not buttonA.value:
 			print('DEBUG: Button A...')
 			ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
-			config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
+			Config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
 			ipAddressConfirmed = True
 
 	if ipAddressConfirmed == True:
 		screenData = []
 		screenData.append(promptText)
 		screenData.append(ipAddress)
-		display.Text.write(0, 0, screenData, '#00FF00')
+		Text.write(0, 0, screenData, '#00FF00')
 
 
 #// ===========================================================================
 
 
-def configureSecondsBetweenPhotos(self):
+def configureSecondsBetweenPhotos():
 	print('DEBUG: Configure Seconds Between Photos...')
 	global ipAddress
 	global secondsBetweenPhotos
@@ -213,7 +216,7 @@ def configureSecondsBetweenPhotos(self):
 		screenData = []
 		screenData.append(promptText)
 		screenData.append(str(secondsBetweenPhotos))
-		display.Text.write(0, 0, screenData)
+		Text.write(0, 0, screenData)
 		
 		if not buttonU.value:
 			if secondsBetweenPhotos < 60:
@@ -229,20 +232,20 @@ def configureSecondsBetweenPhotos(self):
 			time.sleep(0.5)
 
 		if not buttonA.value:
-			config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
+			Config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
 			ipConfirmed = True
 
 	if secondsBetweenPhotosConfirmed == True:
 		screenData = []
 		screenData.append(promptText)
 		screenData.append(str(secondsBetweenPhotos))
-		display.Text.write(0, 0, screenData, '#00FF00')
+		Text.write(0, 0, screenData, '#00FF00')
 
 
 #// ===========================================================================
 
 
-def configureMaxSteps(self):
+def configureMaxSteps():
 	print('DEBUG: Configure Max Steps...')
 	global ipAddress
 	global secondsBetweenPhotos
@@ -255,7 +258,7 @@ def configureMaxSteps(self):
 		screenData = []
 		screenData.append(promptText)
 		screenData.append(str(maxSteps))
-		display.Text.write(0, 0, screenData)
+		Text.write(0, 0, screenData)
 
 		if not buttonU.value:
 			if maxSteps < 720:
@@ -271,20 +274,20 @@ def configureMaxSteps(self):
 			time.sleep(0.5)
 
 		if not buttonA.value:
-			config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
+			Config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
 			ipConfirmed = True
 
 	if maxStepsConfirmed == True:
 		screenData = []
 		screenData.append(promptText)
 		screenData.append(str(maxSteps))
-		display.Text.write(0, 0, screenData, '#00FF00')
+		Text.write(0, 0, screenData, '#00FF00')
 
 
 #// ===========================================================================
 
 
-def turn(self):
+def turn():
 	print('DEBUG: Turn...')
 	global motors
 	global ipAddress
@@ -295,7 +298,7 @@ def turn(self):
 	promptText = 'Starting scan with one frame every ' + str(secondsBetweenPhotos) + ' seconds for up to ' + str(maxSteps) + ' steps...'
 	screenData = []
 	screenData.append(promptText)
-	display.Text.write(0, 0, screenData, '#FFFF00')
+	Text.write(0, 0, screenData, '#FFFF00')
 	print('\n ' + promptText)
 	
 	for i in range(maxSteps):
@@ -310,8 +313,7 @@ def turn(self):
 
 	promptText = 'Scan pass complete... '
 	screenData = []
-	screenData.append(promptText)
-	display.Text.write(0, 0, screenData, '#0000FF')
+	Text.write(0, 0, screenData, '#0000FF')
 	print('\n ' + promptText)
 	time.sleep(5)
 
@@ -342,7 +344,7 @@ try:
 				promptText = 'Press "A" to start a new scan pass... '
 				screenData = []
 				screenData.append(promptText)
-				display.Text.write(0, 0, screenData, '#FFFF00')
+				Text.write(0, 0, screenData, '#FFFF00')
 		else:
 			time.sleep(1)
 	
