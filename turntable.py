@@ -58,10 +58,10 @@ buttonR = DigitalInOut(board.D23)
 buttonR.direction = Direction.INPUT
 
 buttonU = DigitalInOut(board.D17)
-buttonU = Direction.INPUT
+buttonU.direction = Direction.INPUT
 
 buttonD = DigitalInOut(board.D22)
-buttonD = Direction.INPUT
+buttonD.direction = Direction.INPUT
 
 
 #// ===========================================================================

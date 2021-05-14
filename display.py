@@ -6,14 +6,13 @@ import adafruit_rgb_display.st7789 as st7789
 
 rgbDisplay = st7789.ST7789(
 	spi=board.SPI(),
+	height=240,
+	y_offset=80,
+	rotation=180,
 	cs=DigitalInOut(board.CE0),
 	dc=DigitalInOut(board.D25),
-	rst=None,
-	baudrate=64000000,
-	width=240,
-	height=240,
-	x_offset=10,
-	y_offset=10
+	rst=DigitalInOut(board.D24),
+	baudrate=24000000,
 ) 
 width = int(rgbDisplay.width)
 height = int(rgbDisplay.height)

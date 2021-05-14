@@ -20,7 +20,7 @@ sudo git clone https://github.com/eat-sleep-code/turntable
 sudo mkdir -p ~/turntable/logs
 sudo chown -R $USER:$USER turntable
 cd turntable
-sudo chmod +x turntable.py
+sudo chmod +x *.py
 
 cd ~
 echo ''
