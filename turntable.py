@@ -53,9 +53,12 @@ protocol = 'http'
 
 
 def GetIPOctets():
-	global ipAddress
-	splitAddress = ipAddress.split('.')
-	return(int(splitAddress[0]), int(splitAddress[1]), int(splitAddress[2]), int(splitAddress[4]))
+	try:
+		global ipAddress
+		splitAddress = ipAddress.split('.')
+		return (int(splitAddress[0]), int(splitAddress[1]), int(splitAddress[2]), int(splitAddress[3]))
+	except: 
+		return (127, 0, 0, 1)
 
 
 #// ===========================================================================
