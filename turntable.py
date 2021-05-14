@@ -302,7 +302,7 @@ try:
 				promptText = 'Press "A" to start a new scan pass... '
 				screenData.append(promptText)
 				display.Text.Write(0, 0, screenData, '#FFFF00')
-		else 
+		else:
 			time.sleep(1)
 	
 except KeyboardInterrupt:
