@@ -86,6 +86,7 @@ def GetIPOctets():
 
 
 def ConfigureIP():
+	print('DEBUG: Configuring IP...')
 	global ipAddress
 	global secondsBetweenPhotos
 	global maxSteps
@@ -168,6 +169,7 @@ def ConfigureIP():
 
 		# Move to prior Octet
 		if not buttonL.value:
+			print('DEBUG: Button L...')
 			if modifyingOctet > 0:
 				modifyingOctet -= 1
 			else:
@@ -175,6 +177,7 @@ def ConfigureIP():
 
 		# Move to next octet
 		elif not buttonR.value:
+			print('DEBUG: Button R...')
 			if modifyingOctet < 4:
 				modifyingOctet += 1
 			else:
@@ -182,6 +185,7 @@ def ConfigureIP():
 
 		# Save update
 		if not buttonA.value:
+			print('DEBUG: Button A...')
 			ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
 			config.Write(ipAddress, secondsBetweenPhotos, maxSteps) 
 			ipAddressConfirmed = True
@@ -198,6 +202,7 @@ def ConfigureIP():
 
 
 def ConfigureSecondsBetweenPhotos():
+	print('DEBUG: Configure Seconds Between Photos...')
 	global ipAddress
 	global secondsBetweenPhotos
 	global maxSteps
@@ -240,6 +245,7 @@ def ConfigureSecondsBetweenPhotos():
 
 
 def ConfigureMaxSteps():
+	print('DEBUG: Configure Max Steps...')
 	global ipAddress
 	global secondsBetweenPhotos
 	global maxSteps
@@ -282,6 +288,7 @@ def ConfigureMaxSteps():
 
 
 def Turn():
+	print('DEBUG: Turn...')
 	global motors
 	global ipAddress
 	global secondsBetweenPhotos
@@ -337,6 +344,7 @@ try:
 				Turn
 			else:
 				promptText = 'Press "A" to start a new scan pass... '
+				screenData = []
 				screenData.append(promptText)
 				display.Text.Write(0, 0, screenData, '#FFFF00')
 		else:
