@@ -15,8 +15,8 @@ rgbDisplay = st7789.ST7789(
 	x_offset=10,
 	y_offset=10
 ) 
-width = rgbDisplay.width,
-height = rgbDisplay.height
+width = int(rgbDisplay.width)
+height = int(rgbDisplay.height)
 rotation = 0
 image = Image.new('RGB', (width, height))
 draw = ImageDraw.Draw(image)

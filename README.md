@@ -16,6 +16,7 @@ This program is designed for a custom-built turntable used for photogrammetry (p
 - Use [raspi-config](https://www.raspberrypi.org/documentation/configuration/raspi-config.md) to:
   - Set the Memory Split value to a value of at least 64MB
   - Enable I2C
+  - Enable SPI
   - Set up your WiFi connection
 
 
