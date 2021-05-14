@@ -5,9 +5,9 @@ from PIL import Image, ImageDraw, ImageFont
 import adafruit_rgb_display.st7789 as st7789
 
 rgbDisplay = st7789.ST7789(
-	spi,
+	spi=board.SPI(),
 	cs=DigitalInOut(board.CE0),
-	dc=DigitalInOut(board.D25)
+	dc=DigitalInOut(board.D25),
 	rst=None,
 	baudrate=64000000,
 	width=240,
@@ -62,7 +62,7 @@ class Text:
 
 		Backlight.on()
 		text.clear()
-		for line in inputLines
+		for line in inputLines:
 			draw.text((x, y), input, font=font, fill=textColor)
 			y += font.getsize(input)[1]
 
