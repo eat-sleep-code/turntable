@@ -12,7 +12,11 @@ version = '2021.05.13'
 
 #// ===========================================================================
 
-# Echo Control
+
+# Echo/Log Control
+outputLog = open('/home/pi/turntable/logs/output.log', 'w+')
+errorLog = open('/home/pi/turntable/logs/error.log', 'w+')
+
 os.environ['TERM'] = 'xterm-256color'
 def echoOff():
 	subprocess.Popen(['stty', '-echo'], shell=True, stdout=subprocess.DEVNULL, stderr=errorLog)
@@ -21,6 +25,7 @@ def echoOn():
 def clear():
 	subprocess.Popen('clear' if os.name == 'posix' else 'cls')
 clear()
+
 
 #// ===========================================================================
 
