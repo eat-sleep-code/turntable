@@ -71,7 +71,7 @@ buttonD.direction = Direction.INPUT
 ipAddressConfirmed = False
 secondsBetweenPhotosConfirmed = False
 maxStepsConfirmed = False
-confirmationLifespan = 3.0
+statusMessageLifespan = 3.0
 
 ipAddress, secondsBetweenPhotos, maxSteps = Config.read()
 protocol = 'http'
@@ -107,7 +107,7 @@ def configureIP():
 	global secondsBetweenPhotos
 	global maxSteps
 	global ipAddressConfirmed
-	global confirmationLifespan
+	global statusMessageLifespan
 	
 	modifyingOctet = 4
 	octet1, octet2, octet3, octet4 = getIPOctets()
@@ -211,11 +211,11 @@ def configureIP():
 			Config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
 			ipAddressConfirmed = True
 		
-		time.sleep(0.5)
+		time.sleep(0.1)
 
 	if ipAddressConfirmed == True:
 		Text.write((promptText, ipAddress), 0, 0, '#00FF00')
-		time.sleep(confirmationLifespan)
+		time.sleep(statusMessageLifespan)
 
 #// ===========================================================================
 
@@ -226,7 +226,7 @@ def configureSecondsBetweenPhotos():
 	global secondsBetweenPhotos
 	global maxSteps
 	global secondsBetweenPhotosConfirmed
-	global confirmationLifespan
+	global statusMessageLifespan
 	
 	promptText = 'Seconds between photos: '
 	Text.write((promptText, secondsBetweenPhotos), 0, 0)
@@ -250,11 +250,11 @@ def configureSecondsBetweenPhotos():
 			Config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
 			secondsBetweenPhotosConfirmed = True
 
-		time.sleep(0.5)
+		time.sleep(0.1)
 
 	if secondsBetweenPhotosConfirmed == True:
 		Text.write((promptText, secondsBetweenPhotos), 0, 0, '#00FF00')
-		time.sleep(confirmationLifespan)
+		time.sleep(statusMessageLifespan)
 
 
 #// ===========================================================================
@@ -266,7 +266,7 @@ def configureMaxSteps():
 	global secondsBetweenPhotos
 	global maxSteps
 	global maxStepsConfirmed
-	global confirmationLifespan
+	global statusMessageLifespan
 	
 	promptText = 'Max steps: '
 	Text.write((promptText, maxSteps), 0, 0)
@@ -290,11 +290,11 @@ def configureMaxSteps():
 			Config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
 			maxStepsConfirmed = True
 		
-		time.sleep(0.5)
+		time.sleep(0.1)
 
 	if maxStepsConfirmed == True:
 		Text.write((promptText, maxSteps), 0, 0, '#00FF00')
-		time.sleep(confirmationLifespan)
+		time.sleep(statusMessageLifespan)
 
 #// ===========================================================================
 
@@ -312,19 +312,26 @@ def turn():
 	print('\n ' + promptText)
 	
 	for i in range(maxSteps):
-		url = protocol + '://' + ipAddress + '/control/capture/photo'
-		response = requests.get(url)
-		if response.status_code > 399:
-			break
-		else:
-			time.sleep(secondsBetweenPhotos/2)
-			motors.stepper1.onestep()
-			time.sleep(secondsBetweenPhotos/2)
+		try:
+			url = protocol + '://' + ipAddress + '/control/capture/photo'
+			response = requests.get(url)
+			if response.status_code > 399:
+				break
+			else:
+				time.sleep(secondsBetweenPhotos/2)
+				motors.stepper1.onestep()
+				time.sleep(secondsBetweenPhotos/2)
+		except:
+			promptText = 'Could not connect to camera!'
+			Text.write((promptText,), 0, 0, '#FF0000')
+			time.sleep(statusMessageLifespan)
+			configureIP()
 
 	promptText = 'Scan pass complete... '
 	Text.write((promptText,), 0, 0, '#0000FF')
 	print('\n ' + promptText)
-	time.sleep(5)
+	time.sleep(statusMessageLifespan)
+
 
 
 #// ===========================================================================
@@ -359,5 +366,7 @@ try:
 			time.sleep(1)
 	
 except KeyboardInterrupt:
+	Text.clear()
+	Backlight.off()
 	echoOn()
 	sys.exit(1)

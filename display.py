@@ -68,7 +68,7 @@ class Text:
 		
 		for line in inputLines:
 			print('DEBUG: Writing... ' + str(line))
-			draw.text((x, y), str(line), font=font, fill=textColor)
+			draw.text((240, y), str(line), font=font, fill=textColor)
 			y += font.getsize(str(line))[1]
 
 		rgbDisplay.image(rgbImage, rotation)
