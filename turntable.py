@@ -4,6 +4,7 @@ import display
 import os
 import requests
 import subprocess
+import sys
 import time
 from digitalio import DigitalInOut, Direction
 from adafruit_motorkit import MotorKit
@@ -291,6 +292,7 @@ def Turn():
 	screenData = []
 	screenData.append(promptText)
 	display.Text.Write(0, 0, screenData, '#FFFF00')
+	print('\n ' + promptText)
 	
 	for i in range(maxSteps):
 		url = protocol + '://' + ipAddress + '/control/capture/photo'
@@ -306,6 +308,7 @@ def Turn():
 	screenData = []
 	screenData.append(promptText)
 	display.Text.Write(0, 0, screenData, '#0000FF')
+	print('\n ' + promptText)
 	time.sleep(5)
 	return True
 
