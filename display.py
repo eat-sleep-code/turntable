@@ -7,6 +7,7 @@ import adafruit_rgb_display.st7789 as st7789
 rgbDisplay = st7789.ST7789(
 	spi=board.SPI(),
 	height=240,
+	width=240,
 	y_offset=80,
 	rotation=180,
 	cs=DigitalInOut(board.CE0),
