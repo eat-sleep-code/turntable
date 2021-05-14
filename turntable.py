@@ -76,6 +76,9 @@ ipAddress, secondsBetweenPhotos, maxSteps = Config.read()
 protocol = 'http'
 
 
+#// ===========================================================================
+
+
 def getIPOctets():
 	try:
 		global ipAddress
@@ -84,6 +87,15 @@ def getIPOctets():
 	except: 
 		return (127, 0, 0, 1)
 
+
+#// ===========================================================================
+
+def reconstructIP(octet1, octet2, octet3, octet4):
+	global ipAddress 
+	try:
+		ipAddress = str(octet1) + '.' + str(octet2) + '.' + str(octet3) + '.' + str(octet4)
+	except:
+		return ipAddress
 
 #// ===========================================================================
 
@@ -109,7 +121,7 @@ def configureIP():
 					octet1 += 1
 				else:
 					octet1 = 0
-				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
@@ -118,7 +130,7 @@ def configureIP():
 					octet1 -= 1
 				else:
 					octet1 = 255
-				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
@@ -129,7 +141,7 @@ def configureIP():
 					octet2 += 1
 				else:
 					octet2 = 0
-				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
@@ -138,7 +150,7 @@ def configureIP():
 					octet2 -= 1
 				else:
 					octet2 = 255
-				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
@@ -149,7 +161,7 @@ def configureIP():
 					octet3 += 1
 				else:
 					octet3 = 0
-				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
@@ -158,7 +170,7 @@ def configureIP():
 					octet3 -= 1
 				else:
 					octet3 = 255
-				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
@@ -169,7 +181,7 @@ def configureIP():
 					octet4 += 1
 				else:
 					octet4 = 0
-				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
@@ -178,7 +190,7 @@ def configureIP():
 					octet4 -= 1
 				else:
 					octet4 = 255
-				ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+				reconstructIP(octet1, octet2, octet3, octet4)
 				Text.write((promptText, ipAddress), 0, 0)
 				time.sleep(0.5)
 
@@ -201,7 +213,7 @@ def configureIP():
 		# Save update
 		if not buttonA.value:
 			print('DEBUG: Button A...')
-			ipAddress = octet1 + '.' + octet2 + '.' + octet3 + '.' + octet4
+			reconstructIP(octet1, octet2, octet3, octet4)
 			Config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
 			ipAddressConfirmed = True
 

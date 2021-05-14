@@ -8,7 +8,7 @@ rgbDisplay = st7789.ST7789(
 	spi=board.SPI(),
 	height=240,
 	y_offset=80,
-	rotation=0,
+	rotation=180,
 	cs=DigitalInOut(board.CE0),
 	dc=DigitalInOut(board.D25),
 	rst=DigitalInOut(board.D24),
@@ -16,7 +16,7 @@ rgbDisplay = st7789.ST7789(
 ) 
 width = int(rgbDisplay.width)
 height = int(rgbDisplay.height)
-rotation = 0
+rotation = 180
 rgbImage = Image.new('RGB', (width, height))
 draw = ImageDraw.Draw(rgbImage)
 fontSize = 24
