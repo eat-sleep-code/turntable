@@ -377,7 +377,7 @@ def turn():
 			motors.stepper2.onestep()
 			time.sleep(10) # Allows motion to settle to prevent blurry images
 
-	if restarting = False:
+	if restarting == False:
 		promptText = 'Scan pass complete... '
 		Text.write((promptText,), 0, 0, '#0000FF')
 		print('\n ' + promptText)
