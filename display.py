@@ -59,13 +59,14 @@ class Text:
 		global rgbImage
 		global draw
 		global font
+		global width
 		global rotation
 
 		time.sleep(0.1)
 		Text.clear()
 		
 		for unprocessedLine in inputLines:
-			wrappedLines = str(unprocessedLine)
+			wrappedLines = wrap(str(unprocessedLine), font, width)
 			for line in wrappedLines:
 				draw.text((x, y), line, font=font, fill=textColor)
 				y += font.getsize(line)[1]
