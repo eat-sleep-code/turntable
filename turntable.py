@@ -333,6 +333,7 @@ def turn():
 	global maxLevels
 	global protocol
 	global turning
+	global restarting
 
 	promptText = 'Starting scan of ' + str(maxSteps) + ' frames per ' + str(maxLevels) + ' level(s)...'
 	Text.write((promptText,), 0, 0, '#FFFF00')
@@ -344,7 +345,8 @@ def turn():
 	for l in range(maxLevels):
 		if restarting == True:
 			restart()
-			break
+			return
+			
 
 		for f in range(maxSteps):
 			try:
@@ -422,6 +424,7 @@ try:
 	statusMessageLifespan = 3.0
 	ipAddress, secondsBetweenPhotos, maxSteps, maxLevels = Config.read()
 	protocol = 'http'
+	restarting = False
 
 	# Configure scan
 	configureIP()
@@ -433,7 +436,7 @@ try:
 	promptText = 'Press "A" to start a new scan pass... '
 	Text.write((promptText,), 0, 0, '#FFFF00')
 	
-	while True:
+	while restarting == False:
 		if turning == False:
 			if not buttonA.value:
 				# Go! Go! Go!
