@@ -59,6 +59,7 @@ class Text:
 		global rgbImage
 		global draw
 		global font
+		global rotation
 
 		Backlight.on()
 		Text.clear()
