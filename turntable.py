@@ -334,9 +334,10 @@ def turn():
 	global protocol
 	global turning
 
-	promptText = 'Starting scan of ' + str(maxSteps) + ' frames per ' + str(maxLevels) + ' levels...'
+	promptText = 'Starting scan of ' + str(maxSteps) + ' frames per ' + str(maxLevels) + ' level(s)...'
 	Text.write((promptText,), 0, 0, '#FFFF00')
 	print('\n ' + promptText)
+	time.sleep(statusMessageLifespan)
 
 	restarting = False
 	
@@ -344,7 +345,7 @@ def turn():
 		if restarting == True:
 			restart()
 			break
-		
+
 		for f in range(maxSteps):
 			try:
 				if not buttonB.value:
