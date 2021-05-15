@@ -334,6 +334,7 @@ def turn():
 	global protocol
 	global turning
 	global restarting
+	global statusMessageLifespan
 
 	promptText = 'Starting scan of ' + str(maxSteps) + ' frames per ' + str(maxLevels) + ' level(s)...'
 	Text.write((promptText,), 0, 0, '#FFFF00')
@@ -346,13 +347,14 @@ def turn():
 			try:
 				if not buttonB.value:
 					restarting = True
+					turning = False
 					return
 
 				promptText = 'Scanning...'
 				if maxLevels > 1:
-					Text.write((promptText, '', 'Frame: ' + str(f + 1), '', 'Level: ' + str(l + 1)), 0, 0, '#FFA500')
+					Text.write((promptText, ' ', 'Frame: ' + str(f + 1), ' ', 'Level: ' + str(l + 1)), 0, 0, '#FFA500')
 				else:
-					Text.write((promptText, '', 'Frame: ' + str(f + 1)), 0, 0, '#FFA500')
+					Text.write((promptText, ' ', 'Frame: ' + str(f + 1)), 0, 0, '#FFA500')
 		
 				url = protocol + '://' + ipAddress + '/control/capture/photo'
 				response = requests.get(url)
@@ -366,7 +368,6 @@ def turn():
 				promptText = 'Could not connect to camera!'
 				Text.write((promptText,), 0, 0, '#FF0000')
 				time.sleep(statusMessageLifespan)
-				configureIP()
 				restarting = True
 				break
 
@@ -376,19 +377,20 @@ def turn():
 			motors.stepper2.onestep()
 			time.sleep(10) # Allows motion to settle to prevent blurry images
 
-
-	promptText = 'Scan pass complete... '
-	Text.write((promptText,), 0, 0, '#0000FF')
-	print('\n ' + promptText)
-	time.sleep(statusMessageLifespan)
-	turning = False
+	if restarting = False:
+		promptText = 'Scan pass complete... '
+		Text.write((promptText,), 0, 0, '#0000FF')
+		print('\n ' + promptText)
+		time.sleep(statusMessageLifespan)
+		turning = False
 
 
 #// ===========================================================================
 
 
 def restart():
-	print('Restarting...')
+	print('\n Restarting...')
+	Text.clear()
 	os.execv(sys.argv[0], sys.argv)
 	sys.exit(1)
 

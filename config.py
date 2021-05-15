@@ -20,7 +20,7 @@ class Config:
 					maxSteps = configItem['maxSteps']
 					maxLevels = configItem['maxLevels']
 		except:
-			print('\n No configuration found')
+			print('\n Configuration file not found')
 			pass
 		return(ipAddress, secondsBetweenPhotos, maxSteps, maxLevels)
 
