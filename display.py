@@ -88,7 +88,7 @@ class Text:
 			lines = []
 			while(words):
 				word = words.pop(0)
-				if len(lines) > 0 and (Text.width(" ".join(lines[-1]), font) + 1 + Text.width(w$
+				if len(lines) > 0 and (Text.width(" ".join(lines[-1]), font) + 1 + Text.width(word, font)) < maxWidth:
 					lines[-1].append(word)
 				else:
 					chunk = len(word)
