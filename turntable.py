@@ -354,9 +354,9 @@ def turn():
 
 				promptText = 'Scanning...'
 				if maxLevels > 1:
-					Text.write((promptText, 'Frame: ' + str(f + 1), 'Level: ' + str(l + 1)), 0, 0, '#FFA500')
+					Text.write((promptText, '', 'Frame: ' + str(f + 1), '', 'Level: ' + str(l + 1)), 0, 0, '#FFA500')
 				else:
-					Text.write((promptText, 'Frame: ' + str(f + 1)), 0, 0, '#FFA500')
+					Text.write((promptText, '', 'Frame: ' + str(f + 1)), 0, 0, '#FFA500')
 		
 				url = protocol + '://' + ipAddress + '/control/capture/photo'
 				response = requests.get(url)
