@@ -67,19 +67,6 @@ buttonD.direction = Direction.INPUT
 #// ===========================================================================
 
 
-# Settings
-ipAddressConfirmed = False
-secondsBetweenPhotosConfirmed = False
-maxStepsConfirmed = False
-statusMessageLifespan = 3.0
-
-ipAddress, secondsBetweenPhotos, maxSteps = Config.read()
-protocol = 'http'
-
-
-#// ===========================================================================
-
-
 def getIPOctets():
 	try:
 		global ipAddress
@@ -102,7 +89,6 @@ def reconstructIP(octet1, octet2, octet3, octet4):
 
 
 def configureIP():
-	print('DEBUG: Configuring IP...')
 	global ipAddress
 	global secondsBetweenPhotos
 	global maxSteps
@@ -190,7 +176,6 @@ def configureIP():
 
 		# Move to prior Octet
 		if not buttonL.value:
-			print('DEBUG: Button L...')
 			if modifyingOctet > 1:
 				modifyingOctet -= 1
 			else:
@@ -198,7 +183,6 @@ def configureIP():
 
 		# Move to next octet
 		elif not buttonR.value:
-			print('DEBUG: Button R...')
 			if modifyingOctet < 4:
 				modifyingOctet += 1
 			else:
@@ -206,7 +190,6 @@ def configureIP():
 
 		# Save update
 		if not buttonA.value:
-			print('DEBUG: Button A...')
 			reconstructIP(octet1, octet2, octet3, octet4)
 			Config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
 			ipAddressConfirmed = True
@@ -221,7 +204,6 @@ def configureIP():
 
 
 def configureSecondsBetweenPhotos():
-	print('DEBUG: Configure Seconds Between Photos...')
 	global ipAddress
 	global secondsBetweenPhotos
 	global maxSteps
@@ -261,7 +243,6 @@ def configureSecondsBetweenPhotos():
 
 
 def configureMaxSteps():
-	print('DEBUG: Configure Max Steps...')
 	global ipAddress
 	global secondsBetweenPhotos
 	global maxSteps
@@ -300,7 +281,6 @@ def configureMaxSteps():
 
 
 def turn():
-	print('DEBUG: Turn...')
 	global motors
 	global ipAddress
 	global secondsBetweenPhotos
@@ -352,18 +332,28 @@ try:
 
 	print('\n Turntable ' + version )
 	print('\n ----------------------------------------------------------------------')
-	time.sleep(2)
-	
+
+	# Initialize some variables
+	ipAddressConfirmed = False
+	secondsBetweenPhotosConfirmed = False
+	maxStepsConfirmed = False
+	statusMessageLifespan = 3.0
+	ipAddress, secondsBetweenPhotos, maxSteps = Config.read()
+	protocol = 'http'
+
+	# Configure scan
 	configureIP()
 	configureSecondsBetweenPhotos()
 	configureMaxSteps()
 
+	# Get ready...
 	promptText = 'Press "A" to start a new scan pass... '
 	Text.write((promptText,), 0, 0, '#FFFF00')
 	
 	while True:
 		if turning == False:
 			if not buttonA.value:
+				# Go! Go! Go!
 				turning = True
 				turn()	
 			else:

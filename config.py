@@ -18,7 +18,7 @@ class Config:
 					secondsBetweenPhotos = configItem['secondsBetweenPhotos']
 					maxSteps = configItem['maxSteps']
 		except:
-			print('No configuration found...')
+			print('\n No configuration found')
 			pass
 		return(ipAddress, secondsBetweenPhotos, maxSteps)
 
