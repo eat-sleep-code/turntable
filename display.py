@@ -64,9 +64,31 @@ class Text:
 		time.sleep(0.1)
 		Text.clear()
 		
-		for line in inputLines:
-			draw.text((x, y), str(line), font=font, fill=textColor)
-			y += font.getsize(str(line))[1]
+		for unprocessedLine in inputLines:
+			wrappedLines = str(unprocessedLine)
+			for line in wrappedLines:
+				draw.text((x, y), line, font=font, fill=textColor)
+				y += font.getsize(line)[1]
 
 		rgbDisplay.image(rgbImage, rotation)
+
+	def wrap(text, font, maxWidth, maxLines=0):
+		words = text.split()
+		lines = []
+		while(words):
+			word = words.pop(0)
+			if len(lines) > 0 and (text_width(" ".join(lines[-1]), font) + 1 + text_width(word,font)) < maxWidth:
+				lines[-1].append(word)
+			else:
+				chunk = len(word)
+				while chunk > 0:
+					while (text_width(word[:chunk],font) > maxWidth and chunk > 1):
+						chunk -= 1
+					lines.append( [word[:chunk]] )
+					word = word[chunk:]
+					chunk = len(word)
+		lines = [" ".join(words) for words in lines]
+		if maxLines and len(lines) > maxLines:
+			lines[maxLines-1] = lines[maxLines-1][:-1] + "..."
+		return "\n".join(lines[:maxLines])
 
