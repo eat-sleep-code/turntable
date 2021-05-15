@@ -92,6 +92,7 @@ def configureIP():
 	global ipAddress
 	global secondsBetweenPhotos
 	global maxSteps
+	global maxLevels
 	global ipAddressConfirmed
 	global statusMessageLifespan
 	
@@ -191,7 +192,7 @@ def configureIP():
 		# Save update
 		if not buttonA.value:
 			reconstructIP(octet1, octet2, octet3, octet4)
-			Config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
+			Config.write(ipAddress, secondsBetweenPhotos, maxSteps, maxLevels) 
 			ipAddressConfirmed = True
 		
 		time.sleep(0.1)
@@ -207,6 +208,7 @@ def configureSecondsBetweenPhotos():
 	global ipAddress
 	global secondsBetweenPhotos
 	global maxSteps
+	global maxLevels
 	global secondsBetweenPhotosConfirmed
 	global statusMessageLifespan
 	
@@ -229,7 +231,7 @@ def configureSecondsBetweenPhotos():
 			Text.write((promptText, secondsBetweenPhotos), 0, 0)
 
 		if not buttonA.value:
-			Config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
+			Config.write(ipAddress, secondsBetweenPhotos, maxSteps, maxLevels) 
 			secondsBetweenPhotosConfirmed = True
 
 		time.sleep(0.1)
@@ -246,6 +248,7 @@ def configureMaxSteps():
 	global ipAddress
 	global secondsBetweenPhotos
 	global maxSteps
+	global maxLevels
 	global maxStepsConfirmed
 	global statusMessageLifespan
 	
@@ -257,18 +260,18 @@ def configureMaxSteps():
 			if maxSteps < 720:
 				maxSteps += 1
 			else:
-				maxSteps = 0
+				maxSteps = 60
 				Text.write((promptText, maxSteps), 0, 0)
 			
 		elif not buttonD.value:
-			if maxSteps > 0:
+			if maxSteps > 60:
 				maxSteps -= 1
 			else:
-				maxSteps = 60
+				maxSteps = 720
 				Text.write((promptText, maxSteps), 0, 0)
 
 		if not buttonA.value:
-			Config.write(ipAddress, secondsBetweenPhotos, maxSteps) 
+			Config.write(ipAddress, secondsBetweenPhotos, maxSteps, maxLevels) 
 			maxStepsConfirmed = True
 		
 		time.sleep(0.1)
@@ -276,6 +279,47 @@ def configureMaxSteps():
 	if maxStepsConfirmed == True:
 		Text.write((promptText, maxSteps), 0, 0, '#00FF00')
 		time.sleep(statusMessageLifespan)
+
+
+#// ===========================================================================
+
+
+def configureMaxLevels():
+	global ipAddress
+	global secondsBetweenPhotos
+	global maxSteps
+	global maxLevels
+	global maxLevelsConfirmed
+	global statusMessageLifespan
+	
+	promptText = 'Max levels: '
+	Text.write((promptText, maxLevel), 0, 0)
+
+	while maxLevelsConfirmed == False:
+		if not buttonU.value:
+			if maxLevels < 720:
+				maxLevels += 1
+			else:
+				maxLevels = 1
+				Text.write((promptText, maxLevels), 0, 0)
+			
+		elif not buttonD.value:
+			if maxLevels > 1:
+				maxLevels -= 1
+			else:
+				maxLevels = 720
+				Text.write((promptText, maxLevels), 0, 0)
+
+		if not buttonA.value:
+			Config.write(ipAddress, secondsBetweenPhotos, maxSteps, maxLevels) 
+			maxLevelsConfirmed = True
+		
+		time.sleep(0.1)
+
+	if maxLevelsConfirmed == True:
+		Text.write((promptText, maxLevels), 0, 0, '#00FF00')
+		time.sleep(statusMessageLifespan)
+
 
 #// ===========================================================================
 
@@ -285,31 +329,41 @@ def turn():
 	global ipAddress
 	global secondsBetweenPhotos
 	global maxSteps
+	global maxLevels
 	global protocol
 	global turning
 
-	promptText = 'Starting scan with one frame every ' + str(secondsBetweenPhotos) + ' seconds for up to ' + str(maxSteps) + ' steps...'
+	promptText = 'Starting scan of ' + str(maxSteps) + ' frames per ' + str(maxLevels) + ' levels...'
 	Text.write((promptText,), 0, 0, '#FFFF00')
 	print('\n ' + promptText)
 	
-	for i in range(maxSteps):
-		try:
-			promptText = 'Scanning...'
-			Text.write((promptText, 'Frame: ' + str(i)), 0, 0, '#FFA500')
-				
-			url = protocol + '://' + ipAddress + '/control/capture/photo'
-			response = requests.get(url)
-			if response.status_code > 399:
-				break
-			else:
-				time.sleep(secondsBetweenPhotos/2)
-				motors.stepper1.onestep()
-				time.sleep(secondsBetweenPhotos/2)
-		except:
-			promptText = 'Could not connect to camera!'
-			Text.write((promptText,), 0, 0, '#FF0000')
-			time.sleep(statusMessageLifespan)
-			configureIP()
+	for l in range(maxLevels):
+		
+		for f in range(maxSteps):
+			try:
+				promptText = 'Scanning...'
+				Text.write((promptText, 'Frame: ' + str(f + 1)), 'Level: ' + str(l + 1)), 0, 0, '#FFA500')
+					
+				url = protocol + '://' + ipAddress + '/control/capture/photo'
+				response = requests.get(url)
+				if response.status_code > 399:
+					break
+				else:
+					time.sleep(secondsBetweenPhotos/2)
+					motors.stepper1.onestep()
+					time.sleep(secondsBetweenPhotos/2)
+			except:
+				promptText = 'Could not connect to camera!'
+				Text.write((promptText,), 0, 0, '#FF0000')
+				time.sleep(statusMessageLifespan)
+				configureIP()
+
+		if maxLevels > 1:
+
+			# Move up 1 layer
+			time.sleep(5)
+			motors.stepper2.onestep()
+			time.sleep(10) # Allows motion to settle to prevent blurry images
 
 
 	promptText = 'Scan pass complete... '
@@ -337,14 +391,16 @@ try:
 	ipAddressConfirmed = False
 	secondsBetweenPhotosConfirmed = False
 	maxStepsConfirmed = False
+	maxLevelsConfrimed = False
 	statusMessageLifespan = 3.0
-	ipAddress, secondsBetweenPhotos, maxSteps = Config.read()
+	ipAddress, secondsBetweenPhotos, maxSteps, maxLevels = Config.read()
 	protocol = 'http'
 
 	# Configure scan
 	configureIP()
 	configureSecondsBetweenPhotos()
 	configureMaxSteps()
+	configureMaxLevels()
 
 	# Get ready...
 	promptText = 'Press "A" to start a new scan pass... '
@@ -359,6 +415,7 @@ try:
 			else:
 				promptText = 'Press "A" to start a new scan pass... '
 				Text.write((promptText,), 0, 0, '#FFFF00')
+				time.sleep(1)
 		else:
 			time.sleep(1)
 	
