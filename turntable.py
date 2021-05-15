@@ -342,8 +342,11 @@ def turn():
 		for f in range(maxSteps):
 			try:
 				promptText = 'Scanning...'
-				Text.write((promptText, 'Frame: ' + str(f + 1)), 'Level: ' + str(l + 1)), 0, 0, '#FFA500')
-					
+				if maxLevels > 1:
+					Text.write((promptText, 'Frame: ' + str(f + 1), 'Level: ' + str(l + 1)), 0, 0, '#FFA500')
+				else:
+					Text.write((promptText, 'Frame: ' + str(f + 1)), 0, 0, '#FFA500')
+		
 				url = protocol + '://' + ipAddress + '/control/capture/photo'
 				response = requests.get(url)
 				if response.status_code > 399:
@@ -415,7 +418,7 @@ try:
 			else:
 				promptText = 'Press "A" to start a new scan pass... '
 				Text.write((promptText,), 0, 0, '#FFFF00')
-				time.sleep(1)
+				time.sleep(2)
 		else:
 			time.sleep(1)
 	
