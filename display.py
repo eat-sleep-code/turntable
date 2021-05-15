@@ -54,7 +54,7 @@ class Text:
 		rgbDisplay.image(rgbImage, rotation)
 
 
-	def write(inputLines = [], x = 0, y = 0, textColor='#FFFFFF'):
+	def write(inputLines = [], x = 0, y = 0, textColor = '#FFFFFF'):
 		global rgbDisplay
 		global rgbImage
 		global draw
@@ -66,24 +66,29 @@ class Text:
 		Text.clear()
 		
 		for unprocessedLine in inputLines:
-			wrappedLines = wrap(str(unprocessedLine), font, width)
+			wrappedLines = Text.wrap(str(unprocessedLine), font, width)
 			for line in wrappedLines:
 				draw.text((x, y), line, font=font, fill=textColor)
-				y += font.getsize(line)[1]
+				y += Text.textWidth(line, font, 1)
 
 		rgbDisplay.image(rgbImage, rotation)
 
-	def wrap(text, font, maxWidth, maxLines=0):
+
+	def textWidth(text, font, index = 0):
+		return font.getsize(text)[index]
+
+
+	def wrap(text, font, maxWidth, maxLines = 0):
 		words = text.split()
 		lines = []
 		while(words):
 			word = words.pop(0)
-			if len(lines) > 0 and (text_width(" ".join(lines[-1]), font) + 1 + text_width(word,font)) < maxWidth:
+			if len(lines) > 0 and (Text.textWidth(" ".join(lines[-1]), font) + 1 + Text.textWidth(word,font)) < maxWidth:
 				lines[-1].append(word)
 			else:
 				chunk = len(word)
 				while chunk > 0:
-					while (text_width(word[:chunk],font) > maxWidth and chunk > 1):
+					while (Text.textWidth(word[:chunk],font) > maxWidth and chunk > 1):
 						chunk -= 1
 					lines.append( [word[:chunk]] )
 					word = word[chunk:]
