@@ -371,7 +371,6 @@ def turn():
 				break
 
 		if maxLevels > 1:
-
 			# Move up 1 layer
 			time.sleep(5)
 			motors.stepper2.onestep()
@@ -389,6 +388,7 @@ def turn():
 
 
 def restart():
+	print('Restarting...')
 	os.execv(sys.argv[0], sys.argv)
 	sys.exit(1)
 
@@ -426,10 +426,7 @@ try:
 	configureMaxSteps()
 	configureMaxLevels()
 
-	# Get ready...
-	promptText = 'Press "A" to start a new scan pass... '
-	Text.write((promptText,), 0, 0, '#FFFF00')
-	
+	# Get ready..
 	while restarting == False:
 		if turning == False:
 			if not buttonA.value:
