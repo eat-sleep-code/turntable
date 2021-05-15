@@ -339,20 +339,14 @@ def turn():
 	Text.write((promptText,), 0, 0, '#FFFF00')
 	print('\n ' + promptText)
 	time.sleep(statusMessageLifespan)
-
-	restarting = False
 	
 	for l in range(maxLevels):
-		if restarting == True:
-			restart()
-			return
-			
-
+		
 		for f in range(maxSteps):
 			try:
 				if not buttonB.value:
 					restarting = True
-					break
+					return
 
 				promptText = 'Scanning...'
 				if maxLevels > 1:
@@ -448,6 +442,8 @@ try:
 				time.sleep(2)
 		else:
 			time.sleep(1)
+
+	restart()
 	
 except KeyboardInterrupt:
 	Text.clear()
