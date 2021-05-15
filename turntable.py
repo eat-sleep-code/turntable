@@ -371,6 +371,8 @@ def turn():
 				Text.write((promptText,), 0, 0, '#FF0000')
 				time.sleep(statusMessageLifespan)
 				configureIP()
+				restarting = True
+				break
 
 		if maxLevels > 1:
 
@@ -392,6 +394,7 @@ def turn():
 
 def restart():
 	os.execv(sys.argv[0], sys.argv)
+	sys.exit(1)
 
 
 #// ===========================================================================
