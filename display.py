@@ -72,5 +72,4 @@ class Text:
 			y += font.getsize(str(line))[1]
 
 		rgbDisplay.image(rgbImage, rotation)
-		time.sleep(0.1)
 

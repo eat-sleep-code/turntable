@@ -306,6 +306,7 @@ def turn():
 	global secondsBetweenPhotos
 	global maxSteps
 	global protocol
+	global turning
 
 	promptText = 'Starting scan with one frame every ' + str(secondsBetweenPhotos) + ' seconds for up to ' + str(maxSteps) + ' steps...'
 	Text.write((promptText,), 0, 0, '#FFFF00')
@@ -313,6 +314,9 @@ def turn():
 	
 	for i in range(maxSteps):
 		try:
+			promptText = 'Scanning...'
+			Text.write((promptText, 'Frame: ' + str(i)), 0, 0, '#FFA500')
+				
 			url = protocol + '://' + ipAddress + '/control/capture/photo'
 			response = requests.get(url)
 			if response.status_code > 399:
@@ -327,11 +331,12 @@ def turn():
 			time.sleep(statusMessageLifespan)
 			configureIP()
 
+
 	promptText = 'Scan pass complete... '
 	Text.write((promptText,), 0, 0, '#0000FF')
 	print('\n ' + promptText)
 	time.sleep(statusMessageLifespan)
-
+	turning = False
 
 
 #// ===========================================================================
@@ -359,9 +364,11 @@ try:
 	while True:
 		if turning == False:
 			if not buttonA.value:
-				promptText = 'Scanning...'
-				Text.write((promptText,), 0, 0, '#FFFF00')
+				turning = True
 				turn()	
+			else:
+				promptText = 'Press "A" to start a new scan pass... '
+				Text.write((promptText,), 0, 0, '#FFFF00')
 		else:
 			time.sleep(1)
 	
