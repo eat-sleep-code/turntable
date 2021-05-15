@@ -293,7 +293,7 @@ def configureMaxLevels():
 	global statusMessageLifespan
 	
 	promptText = 'Max levels: '
-	Text.write((promptText, maxLevel), 0, 0)
+	Text.write((promptText, maxLevels), 0, 0)
 
 	while maxLevelsConfirmed == False:
 		if not buttonU.value:
@@ -394,7 +394,7 @@ try:
 	ipAddressConfirmed = False
 	secondsBetweenPhotosConfirmed = False
 	maxStepsConfirmed = False
-	maxLevelsConfrimed = False
+	maxLevelsConfirmed = False
 	statusMessageLifespan = 3.0
 	ipAddress, secondsBetweenPhotos, maxSteps, maxLevels = Config.read()
 	protocol = 'http'
