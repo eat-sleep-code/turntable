@@ -25,7 +25,7 @@ font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', fon
 
 
 class Backlight:
-	
+
 	def on():
 		backlight = DigitalInOut(board.D26)
 		backlight.switch_to_output()
@@ -78,23 +78,27 @@ class Text:
 		return font.getsize(text)[index]
 
 
-	def wrap(text, font, maxWidth, maxLines = 0):
-		words = text.split()
-		lines = []
-		while(words):
-			word = words.pop(0)
-			if len(lines) > 0 and (Text.width(" ".join(lines[-1]), font) + 1 + Text.width(word,font)) < maxWidth:
-				lines[-1].append(word)
-			else:
-				chunk = len(word)
-				while chunk > 0:
-					while (Text.width(word[:chunk],font) > maxWidth and chunk > 1):
-						chunk -= 1
-					lines.append( [word[:chunk]] )
-					word = word[chunk:]
-					chunk = len(word)
-		lines = [" ".join(words) for words in lines]
-		if maxLines and len(lines) > maxLines:
-			lines[maxLines-1] = lines[maxLines-1][:-1] + "..."
-		return "\n".join(lines[:maxLines])
+	def width(text, font, index = 0):
+		textWidth = font.getsize(text)[index]
+		return textWidth
 
+
+	def wrap(text, font, maxWidth, maxLines = 8):
+			words = text.split()
+			lines = []
+			while(words):
+				word = words.pop(0)
+				if len(lines) > 0 and (Text.width(" ".join(lines[-1]), font) + 1 + Text.width(w$
+					lines[-1].append(word)
+				else:
+					chunk = len(word)
+					while chunk > 0:
+						while (Text.width(word[:chunk],font) > maxWidth and chunk > 1):
+								chunk -= 1
+						lines.append( [word[:chunk]] )
+						word = word[chunk:]
+						chunk = len(word)
+			lines = [" ".join(words) for words in lines]
+			if maxLines and len(lines) > maxLines:
+				lines[maxLines-1] = lines[maxLines-1][:-1] + "..."
+			return lines[:maxLines]
