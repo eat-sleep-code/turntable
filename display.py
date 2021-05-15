@@ -61,7 +61,7 @@ class Text:
 		global font
 		global rotation
 
-		Backlight.on()
+		time.sleep(0.1)
 		Text.clear()
 		
 		for line in inputLines:

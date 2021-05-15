@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import board
 import display
 import os
@@ -260,15 +261,15 @@ def configureMaxSteps():
 			if maxSteps < 720:
 				maxSteps += 1
 			else:
-				maxSteps = 60
-				Text.write((promptText, maxSteps), 0, 0)
+				maxSteps = 10
+			Text.write((promptText, maxSteps), 0, 0)
 			
 		elif not buttonD.value:
-			if maxSteps > 60:
+			if maxSteps > 10:
 				maxSteps -= 1
 			else:
 				maxSteps = 720
-				Text.write((promptText, maxSteps), 0, 0)
+			Text.write((promptText, maxSteps), 0, 0)
 
 		if not buttonA.value:
 			Config.write(ipAddress, secondsBetweenPhotos, maxSteps, maxLevels) 
@@ -301,14 +302,14 @@ def configureMaxLevels():
 				maxLevels += 1
 			else:
 				maxLevels = 1
-				Text.write((promptText, maxLevels), 0, 0)
+			Text.write((promptText, maxLevels), 0, 0)
 			
 		elif not buttonD.value:
 			if maxLevels > 1:
 				maxLevels -= 1
 			else:
 				maxLevels = 720
-				Text.write((promptText, maxLevels), 0, 0)
+			Text.write((promptText, maxLevels), 0, 0)
 
 		if not buttonA.value:
 			Config.write(ipAddress, secondsBetweenPhotos, maxSteps, maxLevels) 
@@ -336,11 +337,20 @@ def turn():
 	promptText = 'Starting scan of ' + str(maxSteps) + ' frames per ' + str(maxLevels) + ' levels...'
 	Text.write((promptText,), 0, 0, '#FFFF00')
 	print('\n ' + promptText)
+
+	restarting = False
 	
 	for l in range(maxLevels):
+		if restarting == True:
+			restart()
+			break
 		
 		for f in range(maxSteps):
 			try:
+				if not buttonB.value:
+					restarting = True
+					break
+
 				promptText = 'Scanning...'
 				if maxLevels > 1:
 					Text.write((promptText, 'Frame: ' + str(f + 1), 'Level: ' + str(l + 1)), 0, 0, '#FFA500')
@@ -379,6 +389,13 @@ def turn():
 #// ===========================================================================
 
 
+def restart():
+	os.execv(sys.argv[0], sys.argv)
+
+
+#// ===========================================================================
+
+
 try:
 	echoOff()
 
@@ -386,6 +403,9 @@ try:
 		os.chdir('/home/pi') 
 	except:
 		pass
+
+
+	Backlight.on()
 
 	print('\n Turntable ' + version )
 	print('\n ----------------------------------------------------------------------')
