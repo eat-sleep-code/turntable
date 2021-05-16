@@ -41,5 +41,5 @@ class Config:
 		
 			return True
 		except Exception as ex:
-			print str(ex)
+			print(str(ex))
 			return False
