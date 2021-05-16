@@ -1,7 +1,7 @@
 import json
 import subprocess
 
-configFile = 'turntable.json'
+configFile = '/home/pi/turntable/turntable.json'
 
 class Config:
 
@@ -40,5 +40,6 @@ class Config:
 				json.dump(configList, turntableConfiguration, indent=4)
 		
 			return True
-		except:
+		except Exception as ex:
+			print str(ex)
 			return False
