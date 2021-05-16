@@ -28,7 +28,7 @@ class Config:
 	def write(ipAddress, secondsBetweenPhotos = 5, maxSteps = 200, maxLevels = 1): 
 		global configFile
 		try:
-			configList = {}
+			configList = []
 			configList.append({
 				'ipAddress': str(ipAddress),
 				'secondsBetweenPhotos': int(secondsBetweenPhotos),
