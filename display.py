@@ -75,10 +75,6 @@ class Text:
 
 
 	def width(text, font, index = 0):
-		return font.getsize(text)[index]
-
-
-	def width(text, font, index = 0):
 		textWidth = font.getsize(text)[index]
 		return textWidth
 
