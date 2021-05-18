@@ -62,7 +62,6 @@ class Text:
 		global width
 		global rotation
 
-		time.sleep(0.1)
 		Text.clear()
 		
 		for unprocessedLine in inputLines:
@@ -72,10 +71,6 @@ class Text:
 				y += Text.width(line, font, 1)
 
 		rgbDisplay.image(rgbImage, rotation)
-
-
-	def width(text, font, index = 0):
-		return font.getsize(text)[index]
 
 
 	def width(text, font, index = 0):

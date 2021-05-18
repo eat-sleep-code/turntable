@@ -12,7 +12,7 @@ from config import Config
 from display import Text, Backlight
 
 
-version = '2021.05.15' 
+version = '2021.05.18' 
 
 #// ===========================================================================
 
