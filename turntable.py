@@ -326,6 +326,24 @@ def configureMaxLevels():
 #// ===========================================================================
 
 
+def capture(url):
+	try:
+		response = requests.get(url)
+		if response.status_code >= 400:
+			promptText = 'Error while capturing image'
+			Text.write((promptText, str(response.status_code), 'Retrying...'), 0, 0, '#FF0000')
+			time.sleep(15)
+			capture(url)
+	except ConnectionError as ex: 
+		promptText = 'Could not connect to camera!'
+		Text.write((promptText, str(ex), 'Retrying...'), 0, 0, '#FF0000')
+		time.sleep(15)
+		capture(url)
+	
+
+#// ===========================================================================
+
+
 def turn():
 	global motors
 	global ipAddress
@@ -359,13 +377,10 @@ def turn():
 		
 				url = protocol + '://' + ipAddress + '/control/capture/photo'
 				try:
-					response = requests.get(url)
-					if response.status_code > 399:
-						break
-					else:
-						time.sleep(secondsBetweenPhotos/2)
-						motors.stepper1.onestep(direction=stepper.BACKWARD, style=stepper.DOUBLE) # Set to backward for clockwise rotation of the final gear
-						time.sleep(secondsBetweenPhotos/2)
+					capture(url)
+					time.sleep(secondsBetweenPhotos/2)
+					motors.stepper1.onestep(direction=stepper.BACKWARD, style=stepper.DOUBLE) # Set to backward for clockwise rotation of the final gear
+					time.sleep(secondsBetweenPhotos/2)
 				except:
 					promptText = 'Could not connect to camera!'
 					Text.write((promptText,), 0, 0, '#FF0000')
@@ -376,6 +391,7 @@ def turn():
 				promptText = str(ex)
 				Text.write((promptText,), 0, 0, '#FF0000')
 				time.sleep(statusMessageLifespan)
+				restarting = True
 				pass
 
 		if maxLevels > 1:
