@@ -363,7 +363,7 @@ def turn():
 					break
 				else:
 					time.sleep(secondsBetweenPhotos/2)
-					motors.stepper1.onestep()
+					motors.stepper1.onestep(direction=stepper.BACKWARD, style=stepper.DOUBLE) # Set to backward for clockwise rotation of the final gear
 					time.sleep(secondsBetweenPhotos/2)
 			except:
 				promptText = 'Could not connect to camera!'
@@ -373,9 +373,13 @@ def turn():
 				break
 
 		if maxLevels > 1:
+			if l < maxLevels:
+				promptText = 'Moving to next level...'
+				Text.write((promptText,), 0, 0, '#FFFF00')
+				time.sleep(statusMessageLifespan)
 			# Move up 1 layer
 			time.sleep(5)
-			motors.stepper2.onestep()
+			motors.stepper2.onestep(direction=stepper.FORWARD, style=stepper.DOUBLE)
 			time.sleep(10) # Allows motion to settle to prevent blurry images
 
 	if restarting == False:
@@ -437,7 +441,7 @@ try:
 				turning = True
 				turn()	
 			else:
-				promptText = 'Press "A" to start a new scan pass... '
+				promptText = 'Press and hold the gray button to start a new scan'
 				Text.write((promptText,), 0, 0, '#FFFF00')
 				time.sleep(2)
 		else:

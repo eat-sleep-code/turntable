@@ -25,7 +25,7 @@ class Config:
 		return(ipAddress, secondsBetweenPhotos, maxSteps, maxLevels)
 
 
-	def write(ipAddress, secondsBetweenPhotos = 5, maxSteps = 200, maxLevels = 1): 
+	def write(ipAddress, secondsBetweenPhotos = 5, maxSteps = 368, maxLevels = 1): 
 		global configFile
 		try:
 			configList = []
