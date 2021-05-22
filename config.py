@@ -8,7 +8,7 @@ class Config:
 	def read():
 		global configFile
 		ipAddress = subprocess.getoutput('hostname -I').split(' ')[0] #Only if turntable board is also running camera, but serves as a "safe" default value
-		secondsBetweenPhotos = 5
+		secondsBetweenPhotos = 3
 		maxSteps = 200
 		maxLevels = 1
 		try:	
