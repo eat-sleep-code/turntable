@@ -358,19 +358,25 @@ def turn():
 					Text.write((promptText, ' ', 'Frame: ' + str(f + 1)), 0, 0, '#FFA500')
 		
 				url = protocol + '://' + ipAddress + '/control/capture/photo'
-				response = requests.get(url)
-				if response.status_code > 399:
+				try:
+					response = requests.get(url)
+					if response.status_code > 399:
+						break
+					else:
+						time.sleep(secondsBetweenPhotos/2)
+						motors.stepper1.onestep(direction=stepper.BACKWARD, style=stepper.DOUBLE) # Set to backward for clockwise rotation of the final gear
+						time.sleep(secondsBetweenPhotos/2)
+				except:
+					promptText = 'Could not connect to camera!'
+					Text.write((promptText,), 0, 0, '#FF0000')
+					time.sleep(statusMessageLifespan)
+					restarting = True
 					break
-				else:
-					time.sleep(secondsBetweenPhotos/2)
-					motors.stepper1.onestep(direction=stepper.BACKWARD, style=stepper.DOUBLE) # Set to backward for clockwise rotation of the final gear
-					time.sleep(secondsBetweenPhotos/2)
-			except:
-				promptText = 'Could not connect to camera!'
+			except Exception as ex:
+				promptText = str(ex)
 				Text.write((promptText,), 0, 0, '#FF0000')
 				time.sleep(statusMessageLifespan)
-				restarting = True
-				break
+				pass
 
 		if maxLevels > 1:
 			if l < maxLevels:
@@ -454,3 +460,5 @@ except KeyboardInterrupt:
 	Backlight.off()
 	echoOn()
 	sys.exit(1)
+
+	

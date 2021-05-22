@@ -50,9 +50,11 @@ class Text:
 		global width
 		global height
 		global rotation
-		draw.rectangle((0, 0, width, height), outline=0, fill=(0, 0, 0))
-		rgbDisplay.image(rgbImage, rotation)
-
+		try:
+			draw.rectangle((0, 0, width, height), outline=0, fill=(0, 0, 0))
+			rgbDisplay.image(rgbImage, rotation)
+		except: 
+			pass
 
 	def write(inputLines = [], x = 0, y = 0, textColor = '#FFFFFF'):
 		global rgbDisplay
@@ -62,15 +64,18 @@ class Text:
 		global width
 		global rotation
 
-		Text.clear()
-		
-		for unprocessedLine in inputLines:
-			wrappedLines = Text.wrap(str(unprocessedLine), font, width)
-			for line in wrappedLines:
-				draw.text((x, y), line, font=font, fill=textColor)
-				y += Text.width(line, font, 1)
+		try:
+			Text.clear()
+			
+			for unprocessedLine in inputLines:
+				wrappedLines = Text.wrap(str(unprocessedLine), font, width)
+				for line in wrappedLines:
+					draw.text((x, y), line, font=font, fill=textColor)
+					y += Text.width(line, font, 1)
 
-		rgbDisplay.image(rgbImage, rotation)
+			rgbDisplay.image(rgbImage, rotation)
+		except: 
+			pass
 
 
 	def width(text, font, index = 0):
