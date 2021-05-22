@@ -9,7 +9,7 @@ class Config:
 		global configFile
 		ipAddress = subprocess.getoutput('hostname -I').split(' ')[0] #Only if turntable board is also running camera, but serves as a "safe" default value
 		secondsBetweenPhotos = 3
-		maxSteps = 200
+		maxSteps = 368
 		maxLevels = 1
 		try:	
 			with open(configFile) as turntableConfiguration:
@@ -25,7 +25,7 @@ class Config:
 		return(ipAddress, secondsBetweenPhotos, maxSteps, maxLevels)
 
 
-	def write(ipAddress, secondsBetweenPhotos = 5, maxSteps = 368, maxLevels = 1): 
+	def write(ipAddress, secondsBetweenPhotos = 3, maxSteps = 368, maxLevels = 1): 
 		global configFile
 		try:
 			configList = []
