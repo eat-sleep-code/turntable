@@ -7,12 +7,12 @@ import subprocess
 import sys
 import time
 from digitalio import DigitalInOut, Direction
-from adafruit_motorkit import MotorKit
+from adafruit_motorkit import MotorKit, stepper
 from config import Config
 from display import Text, Backlight
 
 
-version = '2021.05.18' 
+version = '2021.05.22' 
 
 #// ===========================================================================
 

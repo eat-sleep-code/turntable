@@ -1,0 +1,13 @@
+[Unit]
+Description=Turntable service
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/turntable/turntable.py
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=Turntable
+User=pi
+
+[Install]
+WantedBy=multi-user.target

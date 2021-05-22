@@ -22,6 +22,13 @@ sudo chown -R $USER:$USER turntable
 cd turntable
 sudo chmod +x *.py
 
+echo ''
+echo -e '\033[93mCreating Service... \033[0m'
+sudo mv turntable.service /etc/systemd/system/turntable.service
+sudo chown root:root /etc/systemd/system/turntable.service
+sudo chmod +x *.sh 
+echo 'Please see the README file for more information on configuring the service.'
+
 cd ~
 echo ''
 echo -e '\033[93mSetting up alias... \033[0m'
@@ -29,6 +36,8 @@ sudo touch ~/.bash_aliases
 sudo sed -i '/\b\(function turntable\)\b/d' ~/.bash_aliases
 sudo sed -i '$ a function turntable { sudo python3 ~/turntable/turntable.py "$@"; }' ~/.bash_aliases
 echo -e 'You may use \e[1mturntable <options>\e[0m to launch the program.'
+
+
 
 echo ''
 echo -e '\033[32m-------------------------------------------------------------------------- \033[0m'

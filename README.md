@@ -35,3 +35,10 @@ sudo chmod +x ~/install-turntable.sh && ~/install-turntable.sh
 ```
 turntable
 ```
+
+---
+
+## Autostart Turntable Service
+Want to start the Turntable service every time you boot your Raspberry Pi?  Here is how!
+
+* Run `~/turntable/install-turntable.service.sh`
