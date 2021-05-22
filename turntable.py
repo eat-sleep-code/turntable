@@ -7,7 +7,8 @@ import subprocess
 import sys
 import time
 from digitalio import DigitalInOut, Direction
-from adafruit_motorkit import MotorKit, stepper
+from adafruit_motorkit import MotorKit
+from adafruit_motor import stepper
 from config import Config
 from display import Text, Backlight
 
