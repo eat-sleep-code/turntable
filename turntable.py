@@ -396,13 +396,14 @@ def turn():
 					Text.write((promptText, str(ex)), 0, 0, '#FF0000')
 					time.sleep(statusMessageLifespan)
 					print('\n ERROR: ' + str(ex))
-					#restarting = True
+					restarting = True
 					break
 			except Exception as ex:
 				promptText = str(ex)
 				Text.write((promptText,), 0, 0, '#FF0000')
 				time.sleep(statusMessageLifespan)
-				#restarting = True
+				print('\n ERROR: ' + str(ex))
+				restarting = True
 				pass
 
 		if maxLevels > 1:
