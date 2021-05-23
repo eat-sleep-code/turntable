@@ -386,17 +386,18 @@ def turn():
 						time.sleep(10)
 						pass
 					time.sleep(secondsBetweenPhotos/2)
-				except:
+				except Exception as ex:
 					promptText = 'Could not connect to camera!'
-					Text.write((promptText,), 0, 0, '#FF0000')
+					Text.write((promptText, str(ex)), 0, 0, '#FF0000')
 					time.sleep(statusMessageLifespan)
-					restarting = True
+					print('\n ERROR' + str(ex))
+					#restarting = True
 					break
 			except Exception as ex:
 				promptText = str(ex)
 				Text.write((promptText,), 0, 0, '#FF0000')
 				time.sleep(statusMessageLifespan)
-				restarting = True
+				#restarting = True
 				pass
 
 		if maxLevels > 1:
