@@ -6,6 +6,7 @@ import requests
 import subprocess
 import sys
 import time
+from urllib3.util.retry import Retry
 from digitalio import DigitalInOut, Direction
 from adafruit_motorkit import MotorKit
 from adafruit_motor import stepper
@@ -328,13 +329,17 @@ def configureMaxLevels():
 
 def capture(url):
 	try:
-		response = requests.get(url)
+		session = requests.Session()
+		retries = Retry(total=20, connect=10, read=10, backoff_factor=0.5)
+		session.mount('http://', requests.adapters.HTTPAdapter(max_retries=retries))
+		session.get(url) 
+		response = session.get(url)
 		if response.status_code >= 400:
 			promptText = 'Error while capturing image!'
 			Text.write((promptText, str(response.status_code), 'Retrying...'), 0, 0, '#FF0000')
 			time.sleep(15)
 			capture(url)
-	except ConnectionError as ex: 
+	except Exception as ex: 
 		promptText = 'Could not capture image!'
 		Text.write((promptText, str(ex), 'Retrying...'), 0, 0, '#FF0000')
 		time.sleep(15)
@@ -390,7 +395,7 @@ def turn():
 					promptText = 'Could not connect to camera!'
 					Text.write((promptText, str(ex)), 0, 0, '#FF0000')
 					time.sleep(statusMessageLifespan)
-					print('\n ERROR' + str(ex))
+					print('\n ERROR: ' + str(ex))
 					#restarting = True
 					break
 			except Exception as ex:
