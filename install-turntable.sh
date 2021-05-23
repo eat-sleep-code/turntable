@@ -35,6 +35,8 @@ echo -e '\033[93mSetting up alias... \033[0m'
 sudo touch ~/.bash_aliases
 sudo sed -i '/\b\(function turntable\)\b/d' ~/.bash_aliases
 sudo sed -i '$ a function turntable { sudo python3 ~/turntable/turntable.py "$@"; }' ~/.bash_aliases
+sudo sed -i '/\b\(function motor-test\)\b/d' ~/.bash_aliases
+sudo sed -i '$ a function motor-test { sudo python3 ~/turntable/motor-test.py "$@"; }' ~/.bash_aliases
 echo -e 'You may use \e[1mturntable <options>\e[0m to launch the program.'
 
 
