@@ -10,7 +10,7 @@ sudo apt update
 echo ''
 echo -e '\033[93mInstalling prerequisites... \033[0m'
 sudo apt install -y git python3 python3-pip python3-pil python3-numpy ttf-dejavu
-sudo pip3 install requests adafruit-circuitpython-motorkit adafruit-circuitpython-rgb-display
+sudo pip3 install requests adafruit-circuitpython-motorkit adafruit-circuitpython-rgb-display --force
 
 echo ''
 echo -e '\033[93mInstalling Turntable... \033[0m'
