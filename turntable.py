@@ -14,7 +14,7 @@ from config import Config
 from display import Text, Backlight
 
 
-version = '2021.05.23' 
+version = '2021.06.14' 
 
 #// ===========================================================================
 
@@ -90,6 +90,38 @@ def reconstructIP(octet1, octet2, octet3, octet4):
 
 #// ===========================================================================
 
+def configureTrigger():
+	global trigger
+	global triggerConfirmed
+	
+	promptText = 'Trigger camera: '
+	Text.write((promptText, trigger), 0, 0)
+		
+	while triggerConfirmed == False:
+		if not buttonU.value:
+			if trigger = 'None':
+				trigger += 'Camera.Remote'
+			else:
+				trigger = 'None'
+			Text.write((promptText, trigger), 0, 0)
+
+		elif not buttonD.value:
+			if trigger = 'None':
+				trigger += 'Camera.Remote'
+			else:
+				trigger = 'None'
+			Text.write((promptText, trigger), 0, 0)
+
+		if not buttonA.value:
+			triggerConfirmed = True
+
+		time.sleep(0.1)
+
+	if triggerConfirmed == True:
+		Text.write((promptText, trigger), 0, 0, '#00FF00')
+		time.sleep(statusMessageLifespan)
+
+#// ===========================================================================
 
 def configureIP():
 	global ipAddress
@@ -351,6 +383,7 @@ def capture(url):
 
 
 def turn():
+	global trigger
 	global motors
 	global ipAddress
 	global secondsBetweenPhotos
@@ -383,8 +416,9 @@ def turn():
 		
 				url = protocol + '://' + ipAddress + '/control/capture/photo'
 				try:
-					capture(url)
-					time.sleep(secondsBetweenPhotos/2)
+					if strip(trigger) != 'None':
+						capture(url)
+						time.sleep(secondsBetweenPhotos/2)
 					try:
 						motors.stepper1.onestep(direction=stepper.BACKWARD, style=stepper.DOUBLE) # Set to backward for clockwise rotation of the final gear
 					except:
@@ -452,17 +486,21 @@ try:
 	print('\n ----------------------------------------------------------------------')
 
 	# Initialize some variables
+	triggerConfirmed = False
 	ipAddressConfirmed = False
 	secondsBetweenPhotosConfirmed = False
 	maxStepsConfirmed = False
 	maxLevelsConfirmed = False
 	statusMessageLifespan = 3.0
+	trigger = 'None'
 	ipAddress, secondsBetweenPhotos, maxSteps, maxLevels = Config.read()
 	protocol = 'http'
 	restarting = False
 
 	# Configure scan
-	configureIP()
+	configureTrigger()
+	if strip(trigger) != 'None':
+		configureIP()
 	configureSecondsBetweenPhotos()
 	configureMaxSteps()
 	configureMaxLevels()
