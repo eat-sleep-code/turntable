@@ -514,6 +514,9 @@ try:
 				# Go! Go! Go!
 				turning = True
 				turn()	
+			elif not buttonB.value:
+				restarting = True
+				turning = False
 			else:
 				promptText = 'Press and hold the gray button to start a new scan'
 				Text.write((promptText,), 0, 0, '#FFFF00')
