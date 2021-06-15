@@ -99,14 +99,14 @@ def configureTrigger():
 		
 	while triggerConfirmed == False:
 		if not buttonU.value:
-			if trigger = 'None':
+			if trigger == 'None':
 				trigger += 'Camera.Remote'
 			else:
 				trigger = 'None'
 			Text.write((promptText, trigger), 0, 0)
 
 		elif not buttonD.value:
-			if trigger = 'None':
+			if trigger == 'None':
 				trigger += 'Camera.Remote'
 			else:
 				trigger = 'None'
@@ -418,7 +418,7 @@ def turn():
 				try:
 					if strip(trigger) != 'None':
 						capture(url)
-						time.sleep(secondsBetweenPhotos/2)
+					time.sleep(secondsBetweenPhotos/2)
 					try:
 						motors.stepper1.onestep(direction=stepper.BACKWARD, style=stepper.DOUBLE) # Set to backward for clockwise rotation of the final gear
 					except:
@@ -492,7 +492,7 @@ try:
 	maxStepsConfirmed = False
 	maxLevelsConfirmed = False
 	statusMessageLifespan = 3.0
-	trigger = 'None'
+	trigger = 'Camera.Remote'
 	ipAddress, secondsBetweenPhotos, maxSteps, maxLevels = Config.read()
 	protocol = 'http'
 	restarting = False
