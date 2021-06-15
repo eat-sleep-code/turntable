@@ -416,7 +416,7 @@ def turn():
 		
 				url = protocol + '://' + ipAddress + '/control/capture/photo'
 				try:
-					if strip(trigger) != 'None':
+					if trigger.strip() != 'None':
 						capture(url)
 					time.sleep(secondsBetweenPhotos/2)
 					try:
@@ -499,7 +499,7 @@ try:
 
 	# Configure scan
 	configureTrigger()
-	if strip(trigger) != 'None':
+	if trigger.strip() != 'None':
 		configureIP()
 	else: 
 		ipAddressConfirmed = True
