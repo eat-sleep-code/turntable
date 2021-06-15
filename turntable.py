@@ -501,6 +501,8 @@ try:
 	configureTrigger()
 	if strip(trigger) != 'None':
 		configureIP()
+	else: 
+		ipAddressConfirmed = True
 	configureSecondsBetweenPhotos()
 	configureMaxSteps()
 	configureMaxLevels()
