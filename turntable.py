@@ -14,7 +14,7 @@ from config import Config
 from display import Text, Backlight
 
 
-version = '2021.06.14' 
+version = '2023.01.14' 
 
 #// ===========================================================================
 
@@ -100,14 +100,14 @@ def configureTrigger():
 	while triggerConfirmed == False:
 		if not buttonU.value:
 			if trigger == 'None':
-				trigger += 'Camera.Remote'
+				trigger = 'Camera.Remote'
 			else:
 				trigger = 'None'
 			Text.write((promptText, trigger), 0, 0)
 
 		elif not buttonD.value:
 			if trigger == 'None':
-				trigger += 'Camera.Remote'
+				trigger = 'Camera.Remote'
 			else:
 				trigger = 'None'
 			Text.write((promptText, trigger), 0, 0)
